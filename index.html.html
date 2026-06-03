@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión 5S — FAdeA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2230;--border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.1);--text:#e6edf3;--muted:#7d8590;
+  --accent:#2f81f7;--green:#3fb950;--amber:#d29922;--red:#f85149;
+  --purple:#bc8cff;--cyan:#39d353;--r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);height:52px;flex-shrink:0}
+.topbar-logo{width:160px;flex-shrink:0;padding:0 20px;border-right:1px solid var(--border);height:100%;display:flex;flex-direction:column;justify-content:center}
+.topbar-logo .name{font-size:13px;font-weight:600;color:var(--text)}
+.topbar-logo .sub{font-size:10px;color:var(--muted);margin-top:1px}
+.topbar-center{flex:1;padding:0 24px;display:flex;flex-direction:column;justify-content:center}
+.topbar-center .page-title{font-size:15px;font-weight:600;color:var(--text)}
+.topbar-center .breadcrumb{font-size:11px;color:var(--accent);margin-top:1px}
+.topbar-right{display:flex;gap:8px;padding:0 20px;flex-shrink:0;align-items:center}
+.topbar-right select{font-family:'Inter',sans-serif;font-size:12px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:6px;padding:6px 28px 6px 10px;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237d8590'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;min-width:140px}
+
+/* Loading */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px}
+.spinner{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--muted)}
+
+/* Error */
+.error-box{background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.2);border-radius:var(--r);padding:20px 24px;margin:24px;color:var(--red);font-size:13px;line-height:1.6}
+.error-box strong{display:block;margin-bottom:6px}
+
+/* BODY LAYOUT */
+.body-layout{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:160px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);padding:20px 0;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.nav-section{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;padding:14px 16px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:12px;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.04)}
+.nav-item.active{color:var(--text);background:rgba(47,129,247,0.12)}
+.nav-item.active .nav-icon{color:var(--accent)}
+.nav-icon{font-size:14px;width:16px;text-align:center;flex-shrink:0}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:20px 24px;background:var(--bg)}
+
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--kpi-color,var(--accent))}
+.kpi-label{font-size:10px;font-weight:600;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.kpi-val{font-size:28px;font-weight:600;color:var(--text);letter-spacing:-1px;line-height:1}
+.kpi-desc{font-size:11px;color:var(--muted);margin-top:4px}
+.kpi-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;margin-top:8px;padding:2px 8px;border-radius:20px}
+.b-ok{background:rgba(63,185,80,.12);color:var(--green)}
+.b-warn{background:rgba(210,153,34,.12);color:var(--amber)}
+.b-bad{background:rgba(248,81,73,.12);color:var(--red)}
+
+/* CHARTS */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.row2.wide{grid-template-columns:55% 1fr}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
+.card-title{font-size:13px;font-weight:600;color:var(--text)}
+.card-sub{font-size:11px;color:var(--muted);margin-top:2px;margin-bottom:14px}
+
+/* DIMS */
+.dims-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px}
+.dim{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center}
+.dim-val{font-size:20px;font-weight:600;letter-spacing:-.5px;line-height:1}
+.dim-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.dim-max{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* BARS */
+.bar-list{display:flex;flex-direction:column;gap:0}
+.bar-row{display:flex;align-items:center;gap:10px;padding:9px 4px;cursor:pointer;border-radius:6px;transition:background .12s}
+.bar-row:hover{background:rgba(255,255,255,0.03)}
+.bar-name{flex:0 0 160px;font-size:12px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;height:8px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.bar-num{flex:0 0 28px;text-align:right;font-size:12px;color:var(--muted)}
+.drill-tag{font-size:10px;color:var(--accent);background:rgba(47,129,247,.1);border:1px solid rgba(47,129,247,.2);border-radius:5px;padding:2px 8px;display:inline-flex;align-items:center;gap:4px}
+
+/* RADAR */
+.radar-legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px}
+.rleg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.rleg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* Última actualización */
+.last-update{font-size:10px;color:var(--muted);padding:2px 8px;background:var(--bg3);border-radius:5px;border:1px solid var(--border)}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:3px}
+
+@media(max-width:860px){
+  .sidebar{display:none}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .row2,.row2.wide{grid-template-columns:1fr}
+  .dims-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <div class="name">Gestión 5S</div>
+    <div class="sub">FAdeA — Sistema de auditorías</div>
+  </div>
+  <div class="topbar-center">
+    <div class="page-title" id="page-title">Resumen empresa</div>
+    <div class="breadcrumb" id="breadcrumb">FAdeA</div>
+  </div>
+  <div class="topbar-right">
+    <span class="last-update" id="last-update">Cargando...</span>
+    <select id="sel-mes" onchange="applyFilters()"><option value="">Todos los meses</option></select>
+    <select id="sel-proceso" onchange="applyFilters()"><option value="">Todos los procesos</option></select>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-layout">
+  <aside class="sidebar">
+    <div class="nav-section">Vistas</div>
+    <button class="nav-item active" onclick="setView('empresa')"><span class="nav-icon">⊞</span> Empresa</button>
+    <button class="nav-item" onclick="setView('proceso')"><span class="nav-icon">⚙</span> Por proceso</button>
+    <button class="nav-item" onclick="setView('subproceso')"><span class="nav-icon">∕</span> Por sub-proceso</button>
+    <button class="nav-item" onclick="setView('sector')"><span class="nav-icon">◎</span> Por sector</button>
+    <div class="nav-section">Análisis</div>
+    <button class="nav-item" onclick="setView('radar')"><span class="nav-icon">✦</span> Radar S1–S5</button>
+    <button class="nav-item" onclick="setView('evolucion')"><span class="nav-icon">↗</span> Evolución</button>
+  </aside>
+
+  <!-- Estado inicial: loading -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">Cargando datos desde Google Sheets...</div>
+  </div>
+
+  <!-- Contenido (oculto hasta que carguen los datos) -->
+  <div class="content" id="content" style="display:none"></div>
+</div>
+
+<script>
+// ══ CONFIGURACIÓN ══
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJFsvS4LJeQRoVphqzW_UPkoSdokH6sqe7JPX0yyrX9KnkHtO7lI4Dgdd-gLbMcI7Z3A/exec';
+
+const OBJ = 85;
+const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const DIM_K = ["S1","S2","S3","S4","S5"];
+const DIM_L = ["Clasificar","Ordenar","Limpiar","Estandarizar","Mantener"];
+const COLORS = ["#2f81f7","#3fb950","#d29922","#bc8cff","#f85149","#39d353","#58a6ff"];
+
+let DATA = [];
+let view = 'empresa', drillProceso = null, drillSub = null;
+let filtMes = '', filtProceso = '';
+let charts = {};
+
+// ══ CARGA DE DATOS DESDE APPS SCRIPT ══
+async function loadData() {
+  try {
+    const res = await fetch(SCRIPT_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const raw = await res.json();
+
+    // Normalizar columnas (el Sheet puede tener nombres con espacios o tildes)
+    DATA = raw.map(r => {
+      // Buscar columnas flexiblemente
+      const get = (...keys) => {
+        for (const k of keys) {
+          if (r[k] !== undefined && r[k] !== '') return r[k];
+        }
+        return '';
+      };
+      const num = v => isNaN(Number(v)) ? 0 : Number(v);
+
+      const s1 = num(get('S1'));
+      const s2 = num(get('S2'));
+      const s3 = num(get('S3'));
+      const s4 = num(get('S4'));
+      const s5 = num(get('S5'));
+
+      return {
+        mes:        String(get('Mes','mes','MES') || '').trim(),
+        anio:       num(get('Año','Anio','anio','AÑO')),
+        sector:     String(get('Sector','sector','SECTOR') || '').trim(),
+        subproceso: String(get('Sub-Proceso','Subproceso','Sub Proceso','subproceso') || '').trim(),
+        proceso:    String(get('Proceso Principal','Proceso','proceso') || '').trim(),
+        S1: s1, S2: s2, S3: s3, S4: s4, S5: s5,
+        total: num(get('Total','total','TOTAL')) || (s1+s2+s3+s4+s5)
+      };
+    }).filter(d => d.sector && d.mes);
+
+    // Actualizar timestamp
+    const now = new Date();
+    document.getElementById('last-update').textContent =
+      `Actualizado ${now.toLocaleDateString('es-AR')} ${now.toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'})}`;
+
+    buildFilters();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+    render();
+
+  } catch (err) {
+    document.getElementById('loading').innerHTML = `
+      <div class="error-box">
+        <strong>No se pudieron cargar los datos</strong>
+        Error: ${err.message}<br><br>
+        Verificá que el Apps Script esté publicado correctamente y que tenga acceso "Cualquier persona".
+      </div>`;
+  }
+}
+
+// ── Helpers ──
+const avg = a => a.length ? Math.round(a.reduce((x,y)=>x+y,0)/a.length) : 0;
+const col = v => v >= OBJ ? 'var(--green)' : v >= 60 ? 'var(--amber)' : 'var(--red)';
+const bcls = v => v >= OBJ ? 'b-ok' : v >= 60 ? 'b-warn' : 'b-bad';
+const btxt = v => v >= OBJ ? '✓ En objetivo' : v >= 60 ? '⚠ Por debajo' : '✗ Crítico';
+const groupBy = (arr,k) => arr.reduce((g,d)=>{ (g[d[k]]=g[d[k]]||[]).push(d); return g; },{});
+const destroyCharts = () => { Object.values(charts).forEach(c=>{try{c.destroy()}catch(e){}}); charts={}; };
+
+function getFiltered() {
+  let d = DATA.filter(r => (!filtMes||r.mes===filtMes) && (!filtProceso||r.proceso===filtProceso));
+  if (drillProceso) d = d.filter(r => r.proceso === drillProceso);
+  if (drillSub)     d = d.filter(r => r.subproceso === drillSub);
+  return d;
+}
+
+function buildFilters() {
+  const sm = document.getElementById('sel-mes');
+  const sp = document.getElementById('sel-proceso');
+  // limpiar opciones previas excepto la primera
+  while(sm.options.length > 1) sm.remove(1);
+  while(sp.options.length > 1) sp.remove(1);
+
+  [...new Set(DATA.map(d=>d.mes))].sort((a,b)=>MESES.indexOf(a)-MESES.indexOf(b))
+    .forEach(m=>{ const o=document.createElement('option'); o.value=m; o.textContent=m; sm.appendChild(o); });
+  [...new Set(DATA.map(d=>d.proceso))].sort()
+    .forEach(p=>{ const o=document.createElement('option'); o.value=p; o.textContent=p; sp.appendChild(o); });
+}
+
+function applyFilters() {
+  filtMes     = document.getElementById('sel-mes').value;
+  filtProceso = document.getElementById('sel-proceso').value;
+  render();
+}
+
+function setView(v) {
+  view=v; drillProceso=null; drillSub=null;
+  const titles = {empresa:'Resumen empresa',proceso:'Por proceso',subproceso:'Por sub-proceso',sector:'Por sector',radar:'Radar S1–S5',evolucion:'Evolución mensual'};
+  document.getElementById('page-title').textContent = titles[v]||v;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', el.getAttribute('onclick').includes(`'${v}'`)));
+  updateBreadcrumb(); render();
+}
+
+function drillDown(nivel, valor) {
+  if (nivel==='proceso')    { drillProceso=valor; drillSub=null; view='subproceso'; document.getElementById('page-title').textContent='Por sub-proceso'; }
+  else if (nivel==='subproceso') { drillSub=valor; view='sector'; document.getElementById('page-title').textContent='Por sector'; }
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  updateBreadcrumb(); render();
+}
+
+function updateBreadcrumb() {
+  const bc = document.getElementById('breadcrumb');
+  let h = `<span onclick="setView('empresa')" style="cursor:pointer;color:var(--accent)">FAdeA</span>`;
+  if (drillProceso) {
+    h += ` <span style="color:var(--muted)">›</span> `;
+    if (drillSub) {
+      h += `<span onclick="drillProceso='${drillProceso}';drillSub=null;view='subproceso';updateBreadcrumb();render()" style="cursor:pointer;color:var(--accent)">${drillProceso}</span>`;
+      h += ` <span style="color:var(--muted)">›</span> <span style="color:var(--text)">${drillSub}</span>`;
+    } else {
+      h += `<span style="color:var(--text)">${drillProceso}</span>`;
+    }
+  }
+  bc.innerHTML = h;
+}
+
+// ── Componentes HTML ──
+function kpiHtml(data) {
+  const a = avg(data.map(d=>d.total));
+  const sectores = new Set(data.map(d=>d.sector)).size;
+  return `<div class="kpi-row">
+    <div class="kpi" style="--kpi-color:${col(a)}">
+      <div class="kpi-label">Puntaje promedio</div>
+      <div class="kpi-val">${a}</div>
+      <div class="kpi-desc">sobre 100 puntos</div>
+      <span class="kpi-badge ${bcls(a)}">${btxt(a)}</span>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--accent)">
+      <div class="kpi-label">Objetivo</div>
+      <div class="kpi-val" style="color:var(--accent)">85</div>
+      <div class="kpi-desc">puntos mínimos</div>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--purple)">
+      <div class="kpi-label">Auditorías</div>
+      <div class="kpi-val" style="color:var(--purple)">${data.length}</div>
+      <div class="kpi-desc">registros</div>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--cyan)">
+      <div class="kpi-label">Sectores</div>
+      <div class="kpi-val" style="color:var(--cyan)">${sectores}</div>
+      <div class="kpi-desc">únicos auditados</div>
+    </div>
+  </div>`;
+}
+
+function barsHtml(groups, nivelDrill) {
+  return Object.entries(groups)
+    .map(([k,rows]) => ({name:k, score:avg(rows.map(r=>r.total))}))
+    .sort((a,b) => b.score-a.score)
+    .map(e => {
+      const oc = nivelDrill ? `onclick="drillDown('${nivelDrill}','${e.name.replace(/'/g,"\\'")}')"` : '';
+      return `<div class="bar-row" ${oc}>
+        <span class="bar-name" title="${e.name}">${e.name}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${e.score}%;background:${col(e.score)}"></div></div>
+        <span class="bar-num">${e.score}</span>
+      </div>`;
+    }).join('');
+}
+
+function dimsHtml(data) {
+  return DIM_K.map((k,i) => {
+    const v = avg(data.map(d=>d[k]));
+    return `<div class="dim">
+      <div class="dim-val" style="color:${col(v/20*100)}">${v}</div>
+      <div class="dim-lbl">${DIM_L[i]}</div>
+      <div class="dim-max">/ 20</div>
+    </div>`;
+  }).join('');
+}
+
+function makeLineChart(data, id) {
+  const byM = {}; MESES.forEach(m=>byM[m]=[]);
+  data.forEach(d => { if(byM[d.mes]) byM[d.mes].push(d.total); });
+  const labels = MESES.filter(m=>byM[m].length>0);
+  const vals = labels.map(m=>avg(byM[m]));
+  setTimeout(() => {
+    const ctx = document.getElementById(id); if(!ctx) return;
+    if(charts[id]) charts[id].destroy();
+    charts[id] = new Chart(ctx, {
+      type:'line',
+      data:{labels, datasets:[
+        {label:'Puntaje',data:vals,borderColor:'#2f81f7',backgroundColor:'rgba(47,129,247,0.06)',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:'#2f81f7',pointHoverRadius:7},
+        {label:'Objetivo',data:labels.map(()=>OBJ),borderColor:'rgba(248,81,73,0.5)',borderDash:[5,4],borderWidth:1.5,pointRadius:0,fill:false}
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+          y:{min:0,max:100,ticks:{color:'#7d8590',font:{size:10}},grid:{color:'rgba(255,255,255,0.04)'}},
+          x:{ticks:{color:'#7d8590',font:{size:10}},grid:{display:false}}
+        }
+      }
+    });
+  }, 50);
+}
+
+function makeRadarChart(data, id, legendId) {
+  const sectors = Object.entries(groupBy(data,'sector'));
+  const datasets = sectors.slice(0,5).map(([name,rows],i) => ({
+    label:name, data:DIM_K.map(k=>Math.round(avg(rows.map(r=>r[k]))/20*100)),
+    borderColor:COLORS[i], backgroundColor:COLORS[i]+'18',
+    borderWidth:2, pointRadius:3, pointBackgroundColor:COLORS[i]
+  }));
+  document.getElementById(legendId).innerHTML = sectors.slice(0,5).map(([n],i)=>
+    `<span class="rleg"><span class="rleg-dot" style="background:${COLORS[i]}"></span>${n}</span>`
+  ).join('');
+  setTimeout(() => {
+    const ctx = document.getElementById(id); if(!ctx) return;
+    if(charts[id]) charts[id].destroy();
+    charts[id] = new Chart(ctx, {
+      type:'radar',
+      data:{labels:['Clasificar\n(S1)','Ordenar\n(S2)','Limpiar\n(S3)','Estandarizar\n(S4)','Mantener\n(S5)'],datasets},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+        scales:{r:{min:0,max:100,ticks:{display:false},
+          grid:{color:'rgba(255,255,255,0.06)'},angleLines:{color:'rgba(255,255,255,0.06)'},
+          pointLabels:{color:'#7d8590',font:{family:'Inter',size:10}}
+        }}
+      }
+    });
+  }, 50);
+}
+
+function makeDimLineChart(data, id) {
+  const byM = {}; MESES.forEach(m=>byM[m]={S1:[],S2:[],S3:[],S4:[],S5:[]});
+  data.forEach(d => { if(byM[d.mes]) DIM_K.forEach(k=>byM[d.mes][k].push(d[k])); });
+  const labels = MESES.filter(m=>byM[m].S1.length>0);
+  const datasets = DIM_K.map((k,i) => ({
+    label:DIM_L[i], data:labels.map(m=>avg(byM[m][k])),
+    borderColor:COLORS[i], backgroundColor:'transparent',
+    borderWidth:2, tension:0.4, pointRadius:4, pointBackgroundColor:COLORS[i]
+  }));
+  setTimeout(() => {
+    const ctx = document.getElementById(id); if(!ctx) return;
+    if(charts[id]) charts[id].destroy();
+    charts[id] = new Chart(ctx, {
+      type:'line', data:{labels,datasets},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+        scales:{
+          y:{min:0,max:20,ticks:{color:'#7d8590',font:{size:10}},grid:{color:'rgba(255,255,255,0.04)'}},
+          x:{ticks:{color:'#7d8590',font:{size:10}},grid:{display:false}}
+        }
+      }
+    });
+  }, 50);
+}
+
+// ══ RENDER PRINCIPAL ══
+function render() {
+  destroyCharts();
+  const data = getFiltered();
+  const el = document.getElementById('content');
+
+  if (view === 'empresa') {
+    el.innerHTML = `
+      ${kpiHtml(data)}
+      <div class="row2 wide">
+        <div class="card">
+          <div class="card-title">Evolución mensual</div>
+          <div class="card-sub">Puntaje promedio por mes</div>
+          <div style="position:relative;height:200px"><canvas id="cLine" role="img" aria-label="Evolución mensual">Evolución mensual.</canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Dimensiones S1–S5</div>
+          <div class="card-sub">Promedio por dimensión (máx 20)</div>
+          <div class="dims-grid">${dimsHtml(data)}</div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="card">
+          <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+            Por proceso <span class="drill-tag">🔍 drill-down</span>
+          </div>
+          <div class="card-sub">Hacé clic para ver detalle</div>
+          <div class="bar-list">${barsHtml(groupBy(data,'proceso'),'proceso')}</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Por sector</div>
+          <div class="card-sub">Puntaje promedio</div>
+          <div class="bar-list">${barsHtml(groupBy(data,'sector'),null)}</div>
+        </div>
+      </div>`;
+    makeLineChart(data,'cLine');
+
+  } else if (view === 'proceso') {
+    el.innerHTML = `${kpiHtml(data)}
+      <div class="card">
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+          Puntaje por proceso <span class="drill-tag">🔍 drill-down habilitado</span>
+        </div>
+        <div class="card-sub">Hacé clic en una barra para ver los sub-procesos</div>
+        <div class="bar-list">${barsHtml(groupBy(data,'proceso'),'proceso')}</div>
+      </div>`;
+
+  } else if (view === 'subproceso') {
+    const t = drillProceso ? `Sub-procesos de: ${drillProceso}` : 'Todos los sub-procesos';
+    el.innerHTML = `${kpiHtml(data)}
+      <div class="card">
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+          ${t} <span class="drill-tag">🔍 drill-down habilitado</span>
+        </div>
+        <div class="card-sub">Hacé clic para ver los sectores</div>
+        <div class="bar-list">${barsHtml(groupBy(data,'subproceso'),'subproceso')}</div>
+      </div>`;
+
+  } else if (view === 'sector') {
+    const t = drillSub ? `Sectores de: ${drillSub}` : 'Todos los sectores';
+    el.innerHTML = `${kpiHtml(data)}
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-title">${t}</div>
+        <div class="card-sub">Vista detallada por sector</div>
+        <div class="bar-list">${barsHtml(groupBy(data,'sector'),null)}</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Dimensiones por sector</div>
+        <div class="card-sub">Desglose S1–S5</div>
+        ${Object.entries(groupBy(data,'sector')).map(([s,rows])=>`
+          <div style="margin-bottom:16px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;padding-top:8px;border-top:1px solid var(--border)">${s}</div>
+            <div class="dims-grid">${dimsHtml(rows)}</div>
+          </div>`).join('')}
+      </div>`;
+
+  } else if (view === 'radar') {
+    el.innerHTML = `${kpiHtml(data)}
+      <div class="card">
+        <div class="card-title">Radar S1–S5 por sector</div>
+        <div class="card-sub">Comparación de las 5 dimensiones (% del máximo)</div>
+        <div class="radar-legend" id="rLeg"></div>
+        <div style="position:relative;height:380px"><canvas id="cRadar" role="img" aria-label="Radar">Radar.</canvas></div>
+      </div>`;
+    makeRadarChart(data,'cRadar','rLeg');
+
+  } else if (view === 'evolucion') {
+    el.innerHTML = `${kpiHtml(data)}
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-title">Evolución mensual</div>
+        <div class="card-sub">Puntaje promedio y objetivo (85)</div>
+        <div style="position:relative;height:260px"><canvas id="cLine2" role="img" aria-label="Evolución">Evolución.</canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Evolución por dimensión</div>
+        <div class="card-sub">S1 a S5 mes a mes (máx 20 c/u)</div>
+        <div class="radar-legend" id="dLeg"></div>
+        <div style="position:relative;height:240px"><canvas id="cDimLine" role="img" aria-label="Dimensiones">Dimensiones.</canvas></div>
+      </div>`;
+    makeLineChart(data,'cLine2');
+    makeDimLineChart(data,'cDimLine');
+    document.getElementById('dLeg').innerHTML = DIM_L.map((l,i)=>
+      `<span class="rleg"><span class="rleg-dot" style="background:${COLORS[i]}"></span>${l}</span>`
+    ).join('');
+  }
+}
+
+// ══ INICIO ══
+loadData();
+</script>
+</body>
+</html>
