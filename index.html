@@ -328,12 +328,19 @@ function barsHtml(groups, nivelDrill) {
 }
 
 function dimsHtml(data) {
+  // Última fila con datos reales (para "última medición")
+  const ultima = data.length ? data[data.length - 1] : null;
   return DIM_K.map((k,i) => {
-    const v = avg(data.map(d=>d[k]));
+    const vprom = avg(data.map(d=>d[k]));
+    const vult  = ultima ? ultima[k] : null;
     return `<div class="dim">
-      <div class="dim-val" style="color:${col(v/20*100)}">${v}</div>
+      <div class="dim-val" style="color:${col(vprom/20*100)}">${vprom}</div>
       <div class="dim-lbl">${DIM_L[i]}</div>
       <div class="dim-max">/ 20</div>
+      ${vult !== null ? `<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06)">
+        <div style="font-size:16px;font-weight:600;color:${col(vult/20*100)}">${vult}</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:2px">última med.</div>
+      </div>` : ''}
     </div>`;
   }).join('');
 }
@@ -430,7 +437,7 @@ function render() {
         </div>
         <div class="card">
           <div class="card-title">Dimensiones S1–S5</div>
-          <div class="card-sub">Promedio por dimensión (máx 20)</div>
+          <div class="card-sub">Promedio · Última Medición (máx 20)</div>
           <div class="dims-grid">${dimsHtml(data)}</div>
         </div>
       </div>
