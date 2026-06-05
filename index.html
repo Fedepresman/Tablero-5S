@@ -328,7 +328,7 @@ function barsHtml(groups, nivelDrill) {
 }
 
 function dimsHtml(data) {
-  // Última fila con datos reales (para "última medición")
+  // Última fila con datos reales (para "Última Medición")
   const ultima = data.length ? data[data.length - 1] : null;
   return DIM_K.map((k,i) => {
     const vprom = avg(data.map(d=>d[k]));
