@@ -15,8 +15,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-
-/* TOPBAR */
 .topbar{display:flex;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);height:52px;flex-shrink:0}
 .topbar-logo{width:160px;flex-shrink:0;padding:0 20px;border-right:1px solid var(--border);height:100%;display:flex;flex-direction:column;justify-content:center}
 .topbar-logo .name{font-size:13px;font-weight:600;color:var(--text)}
@@ -26,21 +24,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .topbar-center .breadcrumb{font-size:11px;color:var(--accent);margin-top:1px}
 .topbar-right{display:flex;gap:8px;padding:0 20px;flex-shrink:0;align-items:center}
 .topbar-right select{font-family:'Inter',sans-serif;font-size:12px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:6px;padding:6px 28px 6px 10px;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237d8590'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;min-width:140px}
-
-/* Loading */
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px}
 .spinner{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:13px;color:var(--muted)}
-
-/* Error */
 .error-box{background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.2);border-radius:var(--r);padding:20px 24px;margin:24px;color:var(--red);font-size:13px;line-height:1.6}
 .error-box strong{display:block;margin-bottom:6px}
-
-/* BODY LAYOUT */
 .body-layout{display:flex;flex:1;overflow:hidden}
-
-/* SIDEBAR */
 .sidebar{width:160px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);padding:20px 0;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
 .nav-section{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;padding:14px 16px 6px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:12px;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s}
@@ -48,11 +38,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .nav-item.active{color:var(--text);background:rgba(47,129,247,0.12)}
 .nav-item.active .nav-icon{color:var(--accent)}
 .nav-icon{font-size:14px;width:16px;text-align:center;flex-shrink:0}
-
-/* CONTENT */
 .content{flex:1;overflow-y:auto;padding:20px 24px;background:var(--bg)}
-
-/* KPIs */
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 .kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--kpi-color,var(--accent))}
@@ -63,43 +49,33 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .b-ok{background:rgba(63,185,80,.12);color:var(--green)}
 .b-warn{background:rgba(210,153,34,.12);color:var(--amber)}
 .b-bad{background:rgba(248,81,73,.12);color:var(--red)}
-
-/* CHARTS */
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .row2.wide{grid-template-columns:55% 1fr}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
 .card-title{font-size:13px;font-weight:600;color:var(--text)}
 .card-sub{font-size:11px;color:var(--muted);margin-top:2px;margin-bottom:14px}
-
-/* DIMS */
 .dims-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px}
 .dim{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center}
 .dim-val{font-size:20px;font-weight:600;letter-spacing:-.5px;line-height:1}
 .dim-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
 .dim-max{font-size:10px;color:var(--muted);margin-top:2px}
-
-/* BARS */
 .bar-list{display:flex;flex-direction:column;gap:0}
 .bar-row{display:flex;align-items:center;gap:10px;padding:9px 4px;cursor:pointer;border-radius:6px;transition:background .12s}
 .bar-row:hover{background:rgba(255,255,255,0.03)}
 .bar-name{flex:0 0 160px;font-size:12px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar-track{flex:1;height:8px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
 .bar-fill{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.4,0,.2,1)}
-.bar-num{flex:0 0 28px;text-align:right;font-size:12px;color:var(--muted)}
+.bar-num{flex:0 0 42px;text-align:right;font-size:12px;color:var(--muted)}
+.bar-mes{flex:0 0 50px;text-align:right;font-size:10px;color:var(--muted);font-style:italic}
 .drill-tag{font-size:10px;color:var(--accent);background:rgba(47,129,247,.1);border:1px solid rgba(47,129,247,.2);border-radius:5px;padding:2px 8px;display:inline-flex;align-items:center;gap:4px}
-
-/* RADAR */
 .radar-legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px}
 .rleg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
 .rleg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
-
-/* Última actualización */
 .last-update{font-size:10px;color:var(--muted);padding:2px 8px;background:var(--bg3);border-radius:5px;border:1px solid var(--border)}
-
+.mes-tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,0.06);color:var(--muted);margin-left:4px;vertical-align:middle}
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:3px}
-
 @media(max-width:860px){
   .sidebar{display:none}
   .kpi-row{grid-template-columns:1fr 1fr}
@@ -110,7 +86,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-logo">
     <div class="name">Gestión 5S</div>
@@ -122,12 +97,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
   </div>
   <div class="topbar-right">
     <span class="last-update" id="last-update">Cargando...</span>
-    <select id="sel-mes" onchange="applyFilters()"><option value="">Todos los meses</option></select>
     <select id="sel-proceso" onchange="applyFilters()"><option value="">Todos los procesos</option></select>
   </div>
 </div>
 
-<!-- BODY -->
 <div class="body-layout">
   <aside class="sidebar">
     <div class="nav-section">Vistas</div>
@@ -140,18 +113,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     <button class="nav-item" onclick="setView('evolucion')"><span class="nav-icon">↗</span> Evolución</button>
   </aside>
 
-  <!-- Estado inicial: loading -->
   <div class="loading" id="loading">
     <div class="spinner"></div>
     <div class="loading-text">Cargando datos desde Google Sheets...</div>
   </div>
-
-  <!-- Contenido (oculto hasta que carguen los datos) -->
   <div class="content" id="content" style="display:none"></div>
 </div>
 
 <script>
-// ══ CONFIGURACIÓN ══
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI9eQfajsO49_g9-TLt6Rxqf1NdXIloxqmRM9GTRNq4kgEADYawJvQpVBKgN_u5r8Qbw/exec';
 
 const OBJ = 85;
@@ -162,54 +131,104 @@ const COLORS = ["#2f81f7","#3fb950","#d29922","#bc8cff","#f85149","#39d353","#58
 
 let DATA = [];
 let view = 'empresa', drillProceso = null, drillSub = null;
-let filtMes = '', filtProceso = '';
+let filtProceso = '';
 let charts = {};
 
-// ══ CARGA DE DATOS DESDE APPS SCRIPT ══
+// ══ LÓGICA DE "ÚLTIMA LECTURA" ══
+
+// Convierte mes+año a número para comparar fechas
+function mesAnioNum(mes, anio) {
+  return anio * 100 + (MESES.indexOf(mes) + 1);
+}
+
+// Devuelve la fila más reciente de un sector dado un array de filas
+function ultimaLecturaSector(rows) {
+  return rows.reduce((best, r) => {
+    return !best || mesAnioNum(r.mes, r.anio) > mesAnioNum(best.mes, best.anio) ? r : best;
+  }, null);
+}
+
+// Para cada sector en DATA, obtiene su última lectura
+// Devuelve array de {sector, subproceso, proceso, mes, anio, S1..S5, total}
+function getUltimasPorSector(data) {
+  const bySector = groupBy(data, 'sector');
+  return Object.entries(bySector).map(([sector, rows]) => {
+    const ultima = ultimaLecturaSector(rows);
+    return { ...ultima, sector };
+  });
+}
+
+// Agrega últimas lecturas de sectores al nivel pedido (subproceso/proceso/empresa)
+// Solo usa sectores cuyo mes+año coincide con el mes más reciente del grupo
+function agregarUltimas(sectoresData, keyFn) {
+  // Agrupar por la clave pedida
+  const grupos = {};
+  sectoresData.forEach(r => {
+    const k = keyFn(r);
+    if (!grupos[k]) grupos[k] = [];
+    grupos[k].push(r);
+  });
+
+  return Object.entries(grupos).map(([nombre, rows]) => {
+    // Mes más reciente dentro de este grupo
+    const maxMesAnio = Math.max(...rows.map(r => mesAnioNum(r.mes, r.anio)));
+    // Solo sectores de ese mes
+    const rowsMesReciente = rows.filter(r => mesAnioNum(r.mes, r.anio) === maxMesAnio);
+    // Reconstruir mes/anio desde el número
+    const anio = Math.floor(maxMesAnio / 100);
+    const mesIdx = (maxMesAnio % 100) - 1;
+    const mes = MESES[mesIdx];
+
+    const totalAvg = Math.round(rowsMesReciente.reduce((a,r)=>a+r.total,0)/rowsMesReciente.length);
+    const dims = {};
+    DIM_K.forEach(k => {
+      dims[k] = Math.round(rowsMesReciente.reduce((a,r)=>a+r[k],0)/rowsMesReciente.length);
+    });
+
+    return {
+      nombre,
+      mes,
+      anio,
+      total: totalAvg,
+      sectoresCount: rowsMesReciente.length,
+      sectoresTotal: rows.length,
+      ...dims
+    };
+  });
+}
+
+// ══ CARGA ══
 async function loadData() {
   try {
     const res = await fetch(SCRIPT_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const raw = await res.json();
 
-    // Normalizar columnas (el Sheet puede tener nombres con espacios o tildes)
+    const get = (...keys) => r => { for (const k of keys) { if (r[k] !== undefined && r[k] !== '') return r[k]; } return ''; };
+    const num = v => isNaN(Number(v)) ? 0 : Number(v);
+
     DATA = raw.map(r => {
-      // Buscar columnas flexiblemente
-      const get = (...keys) => {
-        for (const k of keys) {
-          if (r[k] !== undefined && r[k] !== '') return r[k];
-        }
-        return '';
-      };
-      const num = v => isNaN(Number(v)) ? 0 : Number(v);
-
-      const s1 = num(get('S1'));
-      const s2 = num(get('S2'));
-      const s3 = num(get('S3'));
-      const s4 = num(get('S4'));
-      const s5 = num(get('S5'));
-
+      const g = (...keys) => { for (const k of keys) { if (r[k] !== undefined && r[k] !== '') return r[k]; } return ''; };
+      const s1=num(g('S1')), s2=num(g('S2')), s3=num(g('S3')), s4=num(g('S4')), s5=num(g('S5'));
       return {
-        mes:        String(get('Mes','mes','MES') || '').trim(),
-        anio:       num(get('Año','Anio','anio','AÑO')),
-        sector:     String(get('Sector','sector','SECTOR') || '').trim(),
-        subproceso: String(get('Sub-Proceso','Subproceso','Sub Proceso','subproceso') || '').trim(),
-        proceso:    String(get('Proceso Principal','Proceso','proceso') || '').trim(),
-        S1: s1, S2: s2, S3: s3, S4: s4, S5: s5,
-        total: num(get('Total','total','TOTAL')) || (s1+s2+s3+s4+s5)
+        mes:        String(g('Mes','mes','MES')||'').trim(),
+        anio:       num(g('Año','Anio','anio','AÑO')),
+        sector:     String(g('Sector','sector','SECTOR')||'').trim(),
+        subproceso: String(g('Sub-Proceso','Subproceso','Sub Proceso','subproceso')||'').trim(),
+        proceso:    String(g('Proceso Principal','Proceso','proceso')||'').trim(),
+        S1:s1, S2:s2, S3:s3, S4:s4, S5:s5,
+        total: num(g('Total','total','TOTAL')) || (s1+s2+s3+s4+s5)
       };
     }).filter(d => d.sector && d.mes);
 
-    // Actualizar timestamp
     const now = new Date();
     document.getElementById('last-update').textContent =
-      `Actualizado ${now.toLocaleDateString('es-AR')} ${now.toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'})}`;
+      `Actualizado ${now.toLocaleDateString('es-AR')} ${now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}`;
 
     buildFilters();
     document.getElementById('loading').style.display = 'none';
     document.getElementById('content').style.display = 'block';
     render();
-
   } catch (err) {
     document.getElementById('loading').innerHTML = `
       <div class="error-box">
@@ -229,27 +248,20 @@ const groupBy = (arr,k) => arr.reduce((g,d)=>{ (g[d[k]]=g[d[k]]||[]).push(d); re
 const destroyCharts = () => { Object.values(charts).forEach(c=>{try{c.destroy()}catch(e){}}); charts={}; };
 
 function getFiltered() {
-  let d = DATA.filter(r => (!filtMes||r.mes===filtMes) && (!filtProceso||r.proceso===filtProceso));
+  let d = DATA.filter(r => (!filtProceso || r.proceso === filtProceso));
   if (drillProceso) d = d.filter(r => r.proceso === drillProceso);
   if (drillSub)     d = d.filter(r => r.subproceso === drillSub);
   return d;
 }
 
 function buildFilters() {
-  const sm = document.getElementById('sel-mes');
   const sp = document.getElementById('sel-proceso');
-  // limpiar opciones previas excepto la primera
-  while(sm.options.length > 1) sm.remove(1);
   while(sp.options.length > 1) sp.remove(1);
-
-  [...new Set(DATA.map(d=>d.mes))].sort((a,b)=>MESES.indexOf(a)-MESES.indexOf(b))
-    .forEach(m=>{ const o=document.createElement('option'); o.value=m; o.textContent=m; sm.appendChild(o); });
   [...new Set(DATA.map(d=>d.proceso))].sort()
     .forEach(p=>{ const o=document.createElement('option'); o.value=p; o.textContent=p; sp.appendChild(o); });
 }
 
 function applyFilters() {
-  filtMes     = document.getElementById('sel-mes').value;
   filtProceso = document.getElementById('sel-proceso').value;
   render();
 }
@@ -263,7 +275,7 @@ function setView(v) {
 }
 
 function drillDown(nivel, valor) {
-  if (nivel==='proceso')    { drillProceso=valor; drillSub=null; view='subproceso'; document.getElementById('page-title').textContent='Por sub-proceso'; }
+  if (nivel==='proceso')         { drillProceso=valor; drillSub=null; view='subproceso'; document.getElementById('page-title').textContent='Por sub-proceso'; }
   else if (nivel==='subproceso') { drillSub=valor; view='sector'; document.getElementById('page-title').textContent='Por sector'; }
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
   updateBreadcrumb(); render();
@@ -284,15 +296,21 @@ function updateBreadcrumb() {
   bc.innerHTML = h;
 }
 
-// ── Componentes HTML ──
+// ── KPIs usando últimas lecturas agregadas ──
 function kpiHtml(data) {
-  const a = avg(data.map(d=>d.total));
-  const sectores = new Set(data.map(d=>d.sector)).size;
+  const ultimas = getUltimasPorSector(data);
+  // Mes más reciente global
+  const maxMesAnio = Math.max(...ultimas.map(r => mesAnioNum(r.mes, r.anio)));
+  const anio = Math.floor(maxMesAnio/100);
+  const mes = MESES[(maxMesAnio%100)-1];
+  const rowsMes = ultimas.filter(r => mesAnioNum(r.mes,r.anio) === maxMesAnio);
+  const a = avg(rowsMes.map(r=>r.total));
+  const sectores = ultimas.length;
   return `<div class="kpi-row">
     <div class="kpi" style="--kpi-color:${col(a)}">
-      <div class="kpi-label">Puntaje promedio</div>
+      <div class="kpi-label">Puntaje actual</div>
       <div class="kpi-val">${a}</div>
-      <div class="kpi-desc">sobre 100 puntos</div>
+      <div class="kpi-desc">${mes} ${anio} · ${rowsMes.length} sector${rowsMes.length!==1?'es':''}</div>
       <span class="kpi-badge ${bcls(a)}">${btxt(a)}</span>
     </div>
     <div class="kpi" style="--kpi-color:var(--accent)">
@@ -301,50 +319,85 @@ function kpiHtml(data) {
       <div class="kpi-desc">puntos mínimos</div>
     </div>
     <div class="kpi" style="--kpi-color:var(--purple)">
-      <div class="kpi-label">Auditorías</div>
-      <div class="kpi-val" style="color:var(--purple)">${data.length}</div>
-      <div class="kpi-desc">registros</div>
+      <div class="kpi-label">Sectores</div>
+      <div class="kpi-val" style="color:var(--purple)">${sectores}</div>
+      <div class="kpi-desc">con datos recientes</div>
     </div>
     <div class="kpi" style="--kpi-color:var(--cyan)">
-      <div class="kpi-label">Sectores</div>
-      <div class="kpi-val" style="color:var(--cyan)">${sectores}</div>
-      <div class="kpi-desc">únicos auditados</div>
+      <div class="kpi-label">Auditorías totales</div>
+      <div class="kpi-val" style="color:var(--cyan)">${data.length}</div>
+      <div class="kpi-desc">registros históricos</div>
     </div>
   </div>`;
 }
 
-function barsHtml(groups, nivelDrill) {
-  return Object.entries(groups)
-    .map(([k,rows]) => ({name:k, score:avg(rows.map(r=>r.total))}))
-    .sort((a,b) => b.score-a.score)
+// ── Barras con última lectura y mes visible ──
+function barsUltimasHtml(entries, nivelDrill) {
+  return entries
+    .sort((a,b) => b.total - a.total)
     .map(e => {
-      const oc = nivelDrill ? `onclick="drillDown('${nivelDrill}','${e.name.replace(/'/g,"\\'")}')"` : '';
+      const oc = nivelDrill ? `onclick="drillDown('${nivelDrill}','${e.nombre.replace(/'/g,"\\'")}')"` : '';
+      const mesLabel = `${e.mes ? e.mes.substring(0,3) : ''} ${e.anio||''}`;
       return `<div class="bar-row" ${oc}>
-        <span class="bar-name" title="${e.name}">${e.name}</span>
-        <div class="bar-track"><div class="bar-fill" style="width:${e.score}%;background:${col(e.score)}"></div></div>
-        <span class="bar-num">${e.score}</span>
+        <span class="bar-name" title="${e.nombre}">${e.nombre}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${e.total}%;background:${col(e.total)}"></div></div>
+        <span class="bar-num">${e.total}</span>
+        <span class="bar-mes">${mesLabel}</span>
       </div>`;
     }).join('');
 }
 
-function dimsHtml(data) {
-  // Última fila con datos reales (para "Última Medición")
-  const ultima = data.length ? data[data.length - 1] : null;
+// Barras para sectores individuales (última lectura de cada sector)
+function barsSectoresHtml(data) {
+  const ultimas = getUltimasPorSector(data);
+  return ultimas
+    .sort((a,b) => b.total - a.total)
+    .map(e => {
+      const mesLabel = `${e.mes ? e.mes.substring(0,3) : ''} ${e.anio||''}`;
+      return `<div class="bar-row">
+        <span class="bar-name" title="${e.sector}">${e.sector}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${e.total}%;background:${col(e.total)}"></div></div>
+        <span class="bar-num">${e.total}</span>
+        <span class="bar-mes">${mesLabel}</span>
+      </div>`;
+    }).join('');
+}
+
+// ── Dims con última lectura del mes más reciente ──
+function dimsUltimasHtml(data) {
+  const ultimas = getUltimasPorSector(data);
+  const maxMesAnio = Math.max(...ultimas.map(r => mesAnioNum(r.mes, r.anio)));
+  const rowsMes = ultimas.filter(r => mesAnioNum(r.mes,r.anio) === maxMesAnio);
+  const mes = MESES[(maxMesAnio%100)-1];
+  const anio = Math.floor(maxMesAnio/100);
+
   return DIM_K.map((k,i) => {
-    const vprom = avg(data.map(d=>d[k]));
-    const vult  = ultima ? ultima[k] : null;
+    const v = Math.round(rowsMes.reduce((a,r)=>a+r[k],0)/rowsMes.length);
     return `<div class="dim">
-      <div class="dim-val" style="color:${col(vprom/20*100)}">${vprom}</div>
+      <div class="dim-val" style="color:${col(v/20*100)}">${v}</div>
       <div class="dim-lbl">${DIM_L[i]}</div>
       <div class="dim-max">/ 20</div>
-      ${vult !== null ? `<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06)">
-        <div style="font-size:16px;font-weight:600;color:${col(vult/20*100)}">${vult}</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:2px">Última med.</div>
-      </div>` : ''}
+      <div style="margin-top:5px;font-size:9px;color:var(--muted)">${mes.substring(0,3)} ${anio}</div>
     </div>`;
   }).join('');
 }
 
+// Dims para un sector específico
+function dimsSectorHtml(rows) {
+  const ultima = ultimaLecturaSector(rows);
+  if(!ultima) return '';
+  return DIM_K.map((k,i) => {
+    const v = ultima[k];
+    return `<div class="dim">
+      <div class="dim-val" style="color:${col(v/20*100)}">${v}</div>
+      <div class="dim-lbl">${DIM_L[i]}</div>
+      <div class="dim-max">/ 20</div>
+      <div style="margin-top:5px;font-size:9px;color:var(--muted)">${ultima.mes.substring(0,3)} ${ultima.anio}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Charts ──
 function makeLineChart(data, id) {
   const byM = {}; MESES.forEach(m=>byM[m]=[]);
   data.forEach(d => { if(byM[d.mes]) byM[d.mes].push(d.total); });
@@ -370,25 +423,91 @@ function makeLineChart(data, id) {
   }, 50);
 }
 
-function makeRadarChart(data, id, legendId) {
-  const sectors = Object.entries(groupBy(data,'sector'));
-  const datasets = sectors.slice(0,5).map(([name,rows],i) => ({
-    label:name, data:DIM_K.map(k=>Math.round(avg(rows.map(r=>r[k]))/20*100)),
-    borderColor:COLORS[i], backgroundColor:COLORS[i]+'18',
-    borderWidth:2, pointRadius:3, pointBackgroundColor:COLORS[i]
-  }));
-  document.getElementById(legendId).innerHTML = sectors.slice(0,5).map(([n],i)=>
-    `<span class="rleg"><span class="rleg-dot" style="background:${COLORS[i]}"></span>${n}</span>`
-  ).join('');
+// ── Radar: siempre 2 líneas — sujeto seleccionado vs objetivo ──
+function makeRadarChart(data, id, legendId, selectorId) {
+  const procesos  = [...new Set(data.map(d=>d.proceso))].sort();
+  const subprocs  = [...new Set(data.map(d=>d.subproceso))].sort();
+  const sectors   = [...new Set(data.map(d=>d.sector))].sort();
+
+  const sel = document.getElementById(selectorId);
+  if(sel) {
+    sel.innerHTML =
+      `<option value="__empresa__">Empresa completa</option>` +
+      procesos.map(p=>`<option value="proc::${p}">${p}</option>`).join('') +
+      subprocs.map(s=>`<option value="sub::${s}">${s}</option>`).join('') +
+      sectors.map(s=>`<option value="sec::${s}">${s}</option>`).join('');
+    sel.onchange = () => drawRadar(data, id, legendId, sel.value);
+  }
+  drawRadar(data, id, legendId, '__empresa__');
+}
+
+function drawRadar(data, id, legendId, selVal) {
+  let subjectRows, subjectLabel, mesLabel = '';
+
+  if(selVal === '__empresa__') {
+    // Usar últimas lecturas de todos los sectores del mes más reciente
+    const ultimas = getUltimasPorSector(data);
+    const maxMesAnio = Math.max(...ultimas.map(r=>mesAnioNum(r.mes,r.anio)));
+    subjectRows = ultimas.filter(r=>mesAnioNum(r.mes,r.anio)===maxMesAnio);
+    const mes = MESES[(maxMesAnio%100)-1];
+    const anio = Math.floor(maxMesAnio/100);
+    subjectLabel = 'Empresa';
+    mesLabel = `${mes} ${anio}`;
+  } else if(selVal.startsWith('proc::')) {
+    const v = selVal.replace('proc::','');
+    const filtered = data.filter(d=>d.proceso===v);
+    const ultimas = getUltimasPorSector(filtered);
+    const maxMesAnio = Math.max(...ultimas.map(r=>mesAnioNum(r.mes,r.anio)));
+    subjectRows = ultimas.filter(r=>mesAnioNum(r.mes,r.anio)===maxMesAnio);
+    const mes = MESES[(maxMesAnio%100)-1]; const anio = Math.floor(maxMesAnio/100);
+    subjectLabel = v; mesLabel = `${mes} ${anio}`;
+  } else if(selVal.startsWith('sub::')) {
+    const v = selVal.replace('sub::','');
+    const filtered = data.filter(d=>d.subproceso===v);
+    const ultimas = getUltimasPorSector(filtered);
+    const maxMesAnio = Math.max(...ultimas.map(r=>mesAnioNum(r.mes,r.anio)));
+    subjectRows = ultimas.filter(r=>mesAnioNum(r.mes,r.anio)===maxMesAnio);
+    const mes = MESES[(maxMesAnio%100)-1]; const anio = Math.floor(maxMesAnio/100);
+    subjectLabel = v; mesLabel = `${mes} ${anio}`;
+  } else if(selVal.startsWith('sec::')) {
+    const v = selVal.replace('sec::','');
+    const ultima = ultimaLecturaSector(data.filter(d=>d.sector===v));
+    subjectRows = ultima ? [ultima] : [];
+    subjectLabel = v;
+    mesLabel = ultima ? `${ultima.mes} ${ultima.anio}` : '';
+  }
+
+  const subjectVals = DIM_K.map(k =>
+    subjectRows.length ? Math.round(subjectRows.reduce((a,r)=>a+r[k],0)/subjectRows.length/20*100) : 0
+  );
+  const objVals = DIM_K.map(()=>85);
+
+  document.getElementById(legendId).innerHTML =
+    `<span class="rleg"><span class="rleg-dot" style="background:#2f81f7"></span>${subjectLabel}${mesLabel ? ` <span class="mes-tag">${mesLabel}</span>` : ''}</span>` +
+    `<span class="rleg"><span class="rleg-dot" style="background:#3fb950"></span>Objetivo (85%)</span>`;
+
   setTimeout(() => {
     const ctx = document.getElementById(id); if(!ctx) return;
     if(charts[id]) charts[id].destroy();
     charts[id] = new Chart(ctx, {
       type:'radar',
-      data:{labels:['Clasificar\n(S1)','Ordenar\n(S2)','Limpiar\n(S3)','Estandarizar\n(S4)','Mantener\n(S5)'],datasets},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-        scales:{r:{min:0,max:100,ticks:{display:false},
-          grid:{color:'rgba(255,255,255,0.06)'},angleLines:{color:'rgba(255,255,255,0.06)'},
+      data:{
+        labels:['Clasificar\n(S1)','Ordenar\n(S2)','Limpiar\n(S3)','Estandarizar\n(S4)','Mantener\n(S5)'],
+        datasets:[
+          { label:subjectLabel, data:subjectVals,
+            borderColor:'#2f81f7', backgroundColor:'rgba(47,129,247,0.12)',
+            borderWidth:2, pointRadius:4, pointBackgroundColor:'#2f81f7' },
+          { label:'Objetivo', data:objVals,
+            borderColor:'#3fb950', backgroundColor:'rgba(63,185,80,0.06)',
+            borderWidth:2, borderDash:[5,4], pointRadius:0, fill:true }
+        ]
+      },
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{r:{min:0,max:100,
+          ticks:{display:true,stepSize:25,color:'#7d8590',font:{size:9},backdropColor:'transparent'},
+          grid:{color:'rgba(255,255,255,0.06)'},
+          angleLines:{color:'rgba(255,255,255,0.06)'},
           pointLabels:{color:'#7d8590',font:{family:'Inter',size:10}}
         }}
       }
@@ -427,18 +546,23 @@ function render() {
   const el = document.getElementById('content');
 
   if (view === 'empresa') {
+    // Últimas lecturas por proceso (mes más reciente de cada proceso)
+    const ultSectores = getUltimasPorSector(data);
+    const byProceso = groupBy(ultSectores, 'proceso');
+    const procesosData = agregarUltimas(ultSectores, r=>r.proceso);
+
     el.innerHTML = `
       ${kpiHtml(data)}
       <div class="row2 wide">
         <div class="card">
           <div class="card-title">Evolución mensual</div>
-          <div class="card-sub">Puntaje promedio por mes</div>
+          <div class="card-sub">Puntaje promedio histórico por mes</div>
           <div style="position:relative;height:200px"><canvas id="cLine" role="img" aria-label="Evolución mensual">Evolución mensual.</canvas></div>
         </div>
         <div class="card">
           <div class="card-title">Dimensiones S1–S5</div>
-          <div class="card-sub">Promedio · Última Medición (máx 20)</div>
-          <div class="dims-grid">${dimsHtml(data)}</div>
+          <div class="card-sub">Última lectura por dimensión</div>
+          <div class="dims-grid">${dimsUltimasHtml(data)}</div>
         </div>
       </div>
       <div class="row2">
@@ -446,36 +570,40 @@ function render() {
           <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
             Por proceso <span class="drill-tag">🔍 drill-down</span>
           </div>
-          <div class="card-sub">Hacé clic para ver detalle</div>
-          <div class="bar-list">${barsHtml(groupBy(data,'proceso'),'proceso')}</div>
+          <div class="card-sub">Última lectura · mes visible</div>
+          <div class="bar-list">${barsUltimasHtml(procesosData, 'proceso')}</div>
         </div>
         <div class="card">
           <div class="card-title">Por sector</div>
-          <div class="card-sub">Puntaje promedio</div>
-          <div class="bar-list">${barsHtml(groupBy(data,'sector'),null)}</div>
+          <div class="card-sub">Última lectura · mes visible</div>
+          <div class="bar-list">${barsSectoresHtml(data)}</div>
         </div>
       </div>`;
     makeLineChart(data,'cLine');
 
   } else if (view === 'proceso') {
+    const ultSectores = getUltimasPorSector(data);
+    const procesosData = agregarUltimas(ultSectores, r=>r.proceso);
     el.innerHTML = `${kpiHtml(data)}
       <div class="card">
         <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
-          Puntaje por proceso <span class="drill-tag">🔍 drill-down habilitado</span>
+          Última lectura por proceso <span class="drill-tag">🔍 drill-down habilitado</span>
         </div>
-        <div class="card-sub">Hacé clic en una barra para ver los sub-procesos</div>
-        <div class="bar-list">${barsHtml(groupBy(data,'proceso'),'proceso')}</div>
+        <div class="card-sub">Hacé clic para ver los sub-procesos</div>
+        <div class="bar-list">${barsUltimasHtml(procesosData, 'proceso')}</div>
       </div>`;
 
   } else if (view === 'subproceso') {
     const t = drillProceso ? `Sub-procesos de: ${drillProceso}` : 'Todos los sub-procesos';
+    const ultSectores = getUltimasPorSector(data);
+    const subprocesosData = agregarUltimas(ultSectores, r=>r.subproceso);
     el.innerHTML = `${kpiHtml(data)}
       <div class="card">
         <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
           ${t} <span class="drill-tag">🔍 drill-down habilitado</span>
         </div>
         <div class="card-sub">Hacé clic para ver los sectores</div>
-        <div class="bar-list">${barsHtml(groupBy(data,'subproceso'),'subproceso')}</div>
+        <div class="bar-list">${barsUltimasHtml(subprocesosData, 'subproceso')}</div>
       </div>`;
 
   } else if (view === 'sector') {
@@ -483,28 +611,35 @@ function render() {
     el.innerHTML = `${kpiHtml(data)}
       <div class="card" style="margin-bottom:12px">
         <div class="card-title">${t}</div>
-        <div class="card-sub">Vista detallada por sector</div>
-        <div class="bar-list">${barsHtml(groupBy(data,'sector'),null)}</div>
+        <div class="card-sub">Última lectura por sector · mes visible</div>
+        <div class="bar-list">${barsSectoresHtml(data)}</div>
       </div>
       <div class="card">
         <div class="card-title">Dimensiones por sector</div>
-        <div class="card-sub">Desglose S1–S5</div>
-        ${Object.entries(groupBy(data,'sector')).map(([s,rows])=>`
-          <div style="margin-bottom:16px">
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;padding-top:8px;border-top:1px solid var(--border)">${s}</div>
-            <div class="dims-grid">${dimsHtml(rows)}</div>
-          </div>`).join('')}
+        <div class="card-sub">Última lectura de cada sector</div>
+        ${Object.entries(groupBy(data,'sector')).map(([s,rows])=>{
+          const ultima = ultimaLecturaSector(rows);
+          return `<div style="margin-bottom:16px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;padding-top:8px;border-top:1px solid var(--border)">
+              ${s} <span class="mes-tag">${ultima?ultima.mes+' '+ultima.anio:''}</span>
+            </div>
+            <div class="dims-grid">${dimsSectorHtml(rows)}</div>
+          </div>`;
+        }).join('')}
       </div>`;
 
   } else if (view === 'radar') {
     el.innerHTML = `${kpiHtml(data)}
       <div class="card">
-        <div class="card-title">Radar S1–S5 por sector</div>
-        <div class="card-sub">Comparación de las 5 dimensiones (% del máximo)</div>
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+          Radar S1–S5
+          <select id="radarSel" style="font-family:Inter,sans-serif;font-size:12px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:6px;padding:5px 10px;cursor:pointer;outline:none;max-width:220px"></select>
+        </div>
+        <div class="card-sub">Última lectura del sujeto seleccionado vs objetivo (85%)</div>
         <div class="radar-legend" id="rLeg"></div>
         <div style="position:relative;height:380px"><canvas id="cRadar" role="img" aria-label="Radar">Radar.</canvas></div>
       </div>`;
-    makeRadarChart(data,'cRadar','rLeg');
+    makeRadarChart(data,'cRadar','rLeg','radarSel');
 
   } else if (view === 'evolucion') {
     el.innerHTML = `${kpiHtml(data)}
@@ -527,7 +662,6 @@ function render() {
   }
 }
 
-// ══ INICIO ══
 loadData();
 </script>
 </body>
