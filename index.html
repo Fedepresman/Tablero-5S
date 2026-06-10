@@ -485,6 +485,11 @@ function drawRadar(data, id, legendId, selVal) {
   document.getElementById(legendId).innerHTML =
     `<span class="rleg"><span class="rleg-dot" style="background:#2f81f7"></span>${subjectLabel}${mesLabel ? ` <span class="mes-tag">${mesLabel}</span>` : ''}</span>` +
     `<span class="rleg"><span class="rleg-dot" style="background:#3fb950"></span>Objetivo (85%)</span>`;
+  // Actualizar título y período visibles encima de la leyenda
+  const titleEl = document.getElementById('radarTitleBar');
+  const periodEl = document.getElementById('radarPeriodBar');
+  if(titleEl) titleEl.textContent = subjectLabel;
+  if(periodEl) periodEl.textContent = mesLabel ? `Período: ${mesLabel} · vs objetivo 85%` : 'Última lectura vs objetivo 85%';
 
   setTimeout(() => {
     const ctx = document.getElementById(id); if(!ctx) return;
@@ -633,11 +638,12 @@ function render() {
       <div class="card">
         <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
           Radar S1–S5
-          <select id="radarSel" style="font-family:Inter,sans-serif;font-size:12px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:6px;padding:5px 10px;cursor:pointer;outline:none;max-width:220px"></select>
+          <select id="radarSel" style="font-family:Inter,sans-serif;font-size:12px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:6px;padding:5px 10px;cursor:pointer;outline:none;max-width:260px"></select>
         </div>
-        <div class="card-sub">Última lectura del sujeto seleccionado vs objetivo (85%)</div>
+        <div id="radarTitleBar" style="margin:10px 0 4px;padding:8px 12px;background:rgba(47,129,247,0.07);border-left:3px solid #2f81f7;border-radius:4px;font-size:13px;font-weight:500;color:var(--text)">Empresa completa</div>
+        <div class="card-sub" id="radarPeriodBar" style="margin-bottom:10px">Última lectura del sujeto seleccionado vs objetivo (85%)</div>
         <div class="radar-legend" id="rLeg"></div>
-        <div style="position:relative;height:380px"><canvas id="cRadar" role="img" aria-label="Radar">Radar.</canvas></div>
+        <div style="position:relative;height:340px"><canvas id="cRadar" role="img" aria-label="Radar">Radar.</canvas></div>
       </div>`;
     makeRadarChart(data,'cRadar','rLeg','radarSel');
 
